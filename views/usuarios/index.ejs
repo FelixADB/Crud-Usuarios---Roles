@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Gestión de Usuarios</title>
+    <%- include('../partials/head') %>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <div class="container">
+        <div class="mb-4">
+            <h2>Directorio de Usuarios</h2>
+            <p class="text-muted">Administra los accesos y perfiles del sistema.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="custom-card">
+                    <h5 class="mb-4 fw-bold">Registrar Usuario</h5>
+                    <form action="/usuarios/crear" method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label class="form-label">Nombre Completo</label>
+                            <input type="text" name="nombre" placeholder="Ej: Juan Pérez" required class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Correo Electrónico</label>
+                            <input type="email" name="email" placeholder="correo@ejemplo.com" required class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contraseña</label>
+                            <input type="password" name="password" placeholder="••••••••" required class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Asignar Rol</label>
+                            <select name="id_rol" required class="form-select">
+                                <option value="" disabled selected>Selecciona un rol...</option>
+                                <% roles.forEach(rol => { %>
+                                    <option value="<%= rol.id_rol %>"><%= rol.nombre %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Foto de Perfil</label>
+                            <input type="file" name="imagen" accept="image/*" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Crear cuenta</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="table-custom-wrapper table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Perfil</th>
+                                <th>Usuario</th>
+                                <th>Rol asignado</th>
+                                <th class="text-end">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% usuarios.forEach(user => { %>
+                                <tr>
+                                    <td>
+                                        <img src="<%= user.imagen %>" alt="Avatar" width="40" height="40" style="object-fit:cover; border-radius:50%;">
+                                    </td>
+                                    <td>
+                                        <div class="fw-bold"><%= user.nombre %></div>
+                                        <div class="text-muted small"><%= user.email %></div>
+                                    </td>
+                                    <td><span class="badge-custom"><%= user.rol || 'No asignado' %></span></td>
+                                    <td class="text-end">
+                                        <div class="d-flex gap-2 justify-content-end">
+                                            <a href="/usuarios/editar/<%= user.id_usuario %>" class="btn btn-warning btn-sm">Editar</a>
+                                            <form action="/usuarios/eliminar/<%= user.id_usuario %>" method="POST">
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar este usuario definitivamente?')">Borrar</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

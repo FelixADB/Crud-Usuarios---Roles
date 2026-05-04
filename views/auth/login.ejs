@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Iniciar Sesión</title>
+    <%- include('../partials/head') %>
+    <style>
+        body { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            background-color: var(--bg-body); 
+        }
+        .login-wrapper {
+            max-width: 400px; 
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-wrapper">
+        <div class="custom-card text-center mb-3">
+            <h2 class="mb-4" style="color: var(--primary);">Acceso al Sistema</h2>
+            
+            <% if (error) { %>
+                <div class="alert alert-danger p-2 small"><%= error %></div>
+            <% } %>
+
+            <form action="/login" method="POST">
+                <div class="mb-3 text-start">
+                    <label class="form-label">Correo Electrónico</label>
+                    <input type="email" name="email" class="form-control" placeholder="admin@gmail.com" required>
+                </div>
+                <div class="mb-4 text-start">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Ingresar al Sistema</button>
+            </form>
+        </div>
+
+        <div class="alert alert-info text-center small shadow-sm" style="border-radius: var(--radius-md);">
+            <strong>Nota:</strong>
+            Para probar el sistema, utilice estas credenciales:<br>
+            <span class="fw-bold mt-1 d-block text-dark">Correo:</span> admin@gmail.com<br>
+            <span class="fw-bold text-dark">Contraseña:</span> <br> admin123
+        </div>
+    </div>
+</body>
+</html>

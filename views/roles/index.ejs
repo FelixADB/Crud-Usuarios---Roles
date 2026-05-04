@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Gestión de Roles</title>
+    <%- include('../partials/head') %>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <div class="container">
+        <div class="mb-4">
+            <h2>Niveles de Acceso</h2>
+            <p class="text-muted">Configura los roles y sus descripciones operativas.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="custom-card">
+                    <h5 class="mb-4 fw-bold">Definir Nuevo Rol</h5>
+                    <form action="/roles/crear" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">Nombre del Rol</label>
+                            <input type="text" name="nombre" placeholder="Ej: Editor" required class="form-control">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Descripción</label>
+                            <textarea name="descripcion" rows="3" placeholder="Define los permisos..." class="form-control"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Guardar Rol</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="table-custom-wrapper table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Rol</th>
+                                <th>Descripción</th>
+                                <th class="text-end">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% roles.forEach(rol => { %>
+                                <tr>
+                                    <td>
+                                        <span class="fw-bold"><%= rol.nombre %></span>
+                                    </td>
+                                    <td class="text-muted"><%= rol.descripcion %></td>
+                                    <td class="text-end">
+                                        <div class="d-flex gap-2 justify-content-end">
+                                            <a href="/roles/editar/<%= rol.id_rol %>" class="btn btn-warning btn-sm">Editar</a>
+                                            <form action="/roles/eliminar/<%= rol.id_rol %>" method="POST">
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar este rol del sistema?')">Borrar</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

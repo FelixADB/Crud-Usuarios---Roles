@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Editar Rol</title>
+    <%- include('../partials/head') %>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <div class="container d-flex justify-content-center">
+        <div class="custom-card mt-2" style="max-width: 500px; width: 100%;">
+            <h4 class="mb-4 fw-bold text-center">Modificar Rol</h4>
+            
+            <form action="/roles/editar/<%= rol.id_rol %>" method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Nombre del Rol</label>
+                    <input type="text" name="nombre" value="<%= rol.nombre %>" required class="form-control">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="form-label">Descripción Operativa</label>
+                    <textarea name="descripcion" rows="4" class="form-control"><%= rol.descripcion %></textarea>
+                </div>
+                
+                <div class="d-flex gap-3 mt-4">
+                    <a href="/roles" class="btn btn-warning flex-grow-1">Volver</a>
+                    <button type="submit" class="btn btn-primary flex-grow-1">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>
