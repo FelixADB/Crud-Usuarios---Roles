@@ -7,7 +7,6 @@ exports.listarRoles = async (req, res) => {
 
 exports.crearRol = async (req, res) => {
     const { nombre, descripcion } = req.body;
-    // Validación Backend
     if (!nombre) return res.status(400).send("El nombre del rol es obligatorio.");
     
     await RolModel.create({ nombre, descripcion });

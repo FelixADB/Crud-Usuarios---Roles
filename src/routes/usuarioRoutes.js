@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const usuarioController = require('../controllers/usuarioController');
-const upload = require('../middlewares/upload'); // El middleware que creamos antes
+const upload = require('../middlewares/upload');
 
 router.get('/', usuarioController.listarUsuarios);
 router.post('/crear', upload.single('imagen'), usuarioController.crearUsuario);

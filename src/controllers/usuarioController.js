@@ -1,17 +1,16 @@
 const UsuarioModel = require('../models/usuarioModel');
-const RolModel = require('../models/rolModel'); // Necesario para el desplegable
+const RolModel = require('../models/rolModel');
 const bcrypt = require('bcryptjs');
 
 exports.listarUsuarios = async (req, res) => {
     const usuarios = await UsuarioModel.getAll();
-    const roles = await RolModel.getAll(); // Para cargar en el formulario de creación
+    const roles = await RolModel.getAll();
     res.render('usuarios/index', { usuarios, roles });
 };
 
 exports.crearUsuario = async (req, res) => {
     const { nombre, email, password, id_rol } = req.body;
     
-    // Validación Backend
     if (!nombre || !email || !password || !id_rol) {
         return res.status(400).send("Todos los campos obligatorios deben ser llenados.");
     }
@@ -36,7 +35,6 @@ exports.editarUsuario = async (req, res) => {
         return res.status(400).send("Nombre, email y rol son obligatorios.");
     }
 
-    // Lógica para mantener la imagen anterior si no se sube una nueva
     let imagen = imagen_actual; 
     if (req.file) {
         imagen = '/uploads/' + req.file.filename;

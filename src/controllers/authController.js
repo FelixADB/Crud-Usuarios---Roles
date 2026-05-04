@@ -2,7 +2,6 @@ const UsuarioModel = require('../models/usuarioModel');
 const bcrypt = require('bcryptjs');
 
 exports.mostrarLogin = (req, res) => {
-    // Si ya inició sesión, lo mandamos al panel
     if (req.session.usuario) return res.redirect('/usuarios');
     res.render('auth/login', { error: null });
 };
@@ -13,9 +12,7 @@ exports.login = async (req, res) => {
     try {
         const usuario = await UsuarioModel.getByEmail(email);
         
-        // Validar si el usuario existe y la contraseña encriptada coincide
         if (usuario && await bcrypt.compare(password, usuario.password)) {
-            // Guardamos los datos en la sesión
             req.session.usuario = {
                 id: usuario.id_usuario,
                 nombre: usuario.nombre,
