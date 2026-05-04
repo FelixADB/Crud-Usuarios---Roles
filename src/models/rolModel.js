@@ -2,30 +2,30 @@ const db = require('../config/db');
 
 class RolModel {
     static async getAll() {
-        const [rows] = await db.execute('SELECT * FROM roles');
-        return rows;
+        const result = await db.query('SELECT * FROM roles ORDER BY id_rol ASC');
+        return result.rows;
     }
 
     static async getById(id) {
-        const [rows] = await db.execute('SELECT * FROM roles WHERE id_rol = ?', [id]);
-        return rows[0];
+        const result = await db.query('SELECT * FROM roles WHERE id_rol = $1', [id]);
+        return result.rows[0];
     }
 
     static async create(data) {
         const { nombre, descripcion } = data;
-        const [result] = await db.execute('INSERT INTO roles (nombre, descripcion) VALUES (?, ?)', [nombre, descripcion]);
-        return result;
+        const result = await db.query('INSERT INTO roles (nombre, descripcion) VALUES ($1, $2) RETURNING *', [nombre, descripcion]);
+        return result.rows[0];
     }
 
     static async update(id, data) {
         const { nombre, descripcion } = data;
-        const [result] = await db.execute('UPDATE roles SET nombre = ?, descripcion = ? WHERE id_rol = ?', [nombre, descripcion, id]);
-        return result;
+        const result = await db.query('UPDATE roles SET nombre = $1, descripcion = $2 WHERE id_rol = $3 RETURNING *', [nombre, descripcion, id]);
+        return result.rows[0];
     }
 
     static async delete(id) {
-        const [result] = await db.execute('DELETE FROM roles WHERE id_rol = ?', [id]);
-        return result;
+        await db.query('DELETE FROM roles WHERE id_rol = $1', [id]);
+        return true;
     }
 }
 
